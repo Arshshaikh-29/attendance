@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance List</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        input { padding: 10px; width: 200px; margin: 10px; }
+        button { padding: 10px; margin: 5px; cursor: pointer; }
+        table { width: 50%; margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 10px; text-align: center; }
+        .delete-btn { color: red; cursor: pointer; }
+        .present { color: green; font-weight: bold; }
+        .absent { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h2>Student Attendance List</h2>
+
+    <input type="text" id="studentName" placeholder="Enter Student Name">
+    <button onclick="addStudent()">Add Student</button>
+    <button onclick="deleteAll()">Delete All</button>
+
+    <table id="attendanceTable">
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </table>
+
+    <script>
+        function addStudent() {
+            let name = document.getElementById("studentName").value;
+            if (name.trim() === "") {
+                alert("Please enter a name.");
+                return;
+            }
+
+            let table = document.getElementById("attendanceTable");
+            let row = table.insertRow(-1);
+            let cell1 = row.insertCell(0);
+            let cell2 = row.insertCell(1);
+            let cell3 = row.insertCell(2);
+
+            cell1.innerText = name;
+            cell2.innerHTML = `<button onclick="markPresent(this)">Present</button> <button onclick="markAbsent(this)">Absent</button>`;
+            cell3.innerHTML = `<span class="delete-btn" onclick="deleteRow(this)">Delete</span>`;
+
+            document.getElementById("studentName").value = "";
+        }
+
+        function markPresent(btn) {
+            let row = btn.parentNode;
+            row.innerHTML = `<span class="present">Present</span>`;
+        }
+
+        function markAbsent(btn) {
+            let row = btn.parentNode;
+            row.innerHTML = `<span class="absent">Absent</span>`;
+        }
+
+        function deleteRow(btn) {
+            let row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        function deleteAll() {
+            let table = document.getElementById("attendanceTable");
+            table.innerHTML = `<tr><th>Name</th><th>Status</th><th>Action</th></tr>`;
+        }
+    </script>
+
+</body>
+</html>
